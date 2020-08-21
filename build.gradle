@@ -1,0 +1,108 @@
+buildscript {
+    ext {
+        artifactId = 'oauth-server'
+        artifactGroup = 'com.github'
+        artifactVersion = '0.0.1-SNAPSHOT'
+
+        springBootVersion = '2.3.1.RELEASE'
+        springDependencyManagementVersion = '1.0.9.RELEASE'
+        lombokVersion = '5.0.1'
+        checkstyleVersion = '8.34'
+        springCloudVersion = 'Hoxton.SR7'
+        springOAuth2Version = '2.5.0.RELEASE'
+        springOAuth2AutoconfigureVersion = '2.3.2.RELEASE'
+        jjwtVersion = '0.9.1'
+        nimbusJoseJwtVersion = '8.19'
+    }
+}
+
+plugins {
+    id "org.springframework.boot" version "${springBootVersion}" apply false
+    id "io.spring.dependency-management" version "${springDependencyManagementVersion}" apply false
+    id "io.freefair.lombok" version "${lombokVersion}" apply false
+    id "checkstyle"
+    id 'pmd'
+}
+
+subprojects {
+    group "${artifactGroup}"
+    version "${artifactVersion}"
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: "io.freefair.lombok"
+    apply plugin: "checkstyle"
+    apply plugin: "pmd"
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencyManagement  {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+
+    sourceCompatibility = JavaVersion.VERSION_11
+    generateLombokConfig.enabled = false
+
+    dependencies {
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+        implementation "org.springframework.boot:spring-boot-starter-web"
+        implementation "org.springframework.boot:spring-boot-starter-undertow"
+        implementation "org.springframework.boot:spring-boot-starter-validation"
+        implementation "org.springframework.boot:spring-boot-starter-security"
+        implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+        implementation "org.springframework.security.oauth:spring-security-oauth2:${springOAuth2Version}"
+        implementation "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springOAuth2AutoconfigureVersion}"
+        implementation "org.mariadb.jdbc:mariadb-java-client"
+        implementation "io.jsonwebtoken:jjwt:${jjwtVersion}"
+        implementation "com.nimbusds:nimbus-jose-jwt:${nimbusJoseJwtVersion}"
+        implementation "org.slf4j:slf4j-api"
+
+        testImplementation "org.springframework.boot:spring-boot-starter-test"
+        testImplementation "junit:junit"
+    }
+
+
+    checkstyle {
+        configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")  // default value, the line can be remove
+        toolVersion = "${checkstyleVersion}"
+        ignoreFailures = false
+        maxWarnings = 0
+    }
+
+    pmd {
+        ignoreFailures = false
+        toolVersion = "6.24.0"
+        rulePriority = 2
+        ruleSets = ["category/java/errorprone.xml",
+                    "category/java/bestpractices.xml",
+                    "category/java/codestyle.xml",
+                    "category/java/design.xml",
+                    "category/java/documentation.xml",
+                    "category/java/errorprone.xml",
+                    "category/java/multithreading.xml",
+                    "category/java/performance.xml",
+                    "category/java/security.xml"
+        ]
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    configurations.all {
+        all*.exclude module: "spring-boot-starter-tomcat"
+        all*.exclude group: "commons-logging", module: "commons-logging"
+        all*.exclude group: "log4j"
+        all*.exclude group: "org.apache.logging.log4j"
+        all*.exclude group: "org.slf4j", module: "slf4j-log4j12"
+        all*.exclude group: "org.slf4j", module: "slf4j-simple"
+        all*.exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+    }
+}

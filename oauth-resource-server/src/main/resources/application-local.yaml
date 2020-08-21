@@ -1,0 +1,22 @@
+server:
+    port: 8184
+
+spring:
+    datasource:
+        database:
+            host: localhost
+            port: 3306
+            name: oauth_server
+        username: oauth
+        password: oauth
+    jpa:
+        show-sql: false
+        properties:
+            hibernate:
+                format_sql: true
+
+logging:
+    level:
+        com.github.oauth.resource.server: DEBUG
+        org.hibernate.sql: INFO
+        org.springframework: INFO

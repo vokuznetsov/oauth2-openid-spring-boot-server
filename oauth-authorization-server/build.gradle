@@ -1,0 +1,14 @@
+ext {
+    artifactId = 'oauth-authorization-server'
+    mainPackage = 'com.github.oauth.authorization.server'
+    mainClass = 'OAuthAuthorizationServerApplication'
+}
+
+bootJar {
+    mainClassName = "${mainPackage}.${mainClass}"
+    archiveFileName = "${artifactId}.jar"
+}
+
+dependencies {
+
+}

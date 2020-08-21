@@ -1,0 +1,18 @@
+version: '3.2'
+
+services:
+    mariadb:
+        image: mariadb:10.5.4
+        container_name: mariadb
+        hostname: mariadb
+        command: --explicit_defaults_for_timestamp=on --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        ports:
+            - "3306:3306"
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: admin
+            MYSQL_INITDB_SKIP_TZINFO: 1
+        volumes:
+            # - ../mariadb/db:/var/lib/mysql
+            - ./config/init.sql:/docker-entrypoint-initdb.d/init.sql
+            - ./config/tables.sql:/docker-entrypoint-initdb.d/tables.sql

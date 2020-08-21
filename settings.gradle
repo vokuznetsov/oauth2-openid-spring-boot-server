@@ -1,0 +1,11 @@
+pluginManagement {
+    repositories {
+        maven { url 'https://repo.spring.io/milestone' }
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'oauth-server'
+
+include 'oauth-authorization-server'
+include 'oauth-resource-server'

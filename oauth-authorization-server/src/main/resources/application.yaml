@@ -1,0 +1,66 @@
+server:
+    forward-headers-strategy: native
+    servlet:
+        context-path:
+        session:
+            timeout: 60s
+app:
+    oauth:
+        server:
+            metadata:
+                host: localhost
+                port: 8183
+                url: http://${app.oauth.server.metadata.host}:${app.oauth.server.metadata.port}
+            openidConfiguration:
+                issuer: ${app.oauth.server.metadata.url}
+                authorizationEndpoint: ${app.oauth.server.metadata.url}/oauth/authorize
+                tokenEndpoint: ${app.oauth.server.metadata.url}/oauth/token
+                scopesSupported:
+                    - openid
+                    - email
+                responseTypesSupported:
+                    - code
+                grantTypesSupported:
+                    - authorization_code
+                    - refresh_token
+                    - password
+                idTokenSigningAlgValuesSupported:
+                    - RS256
+                subject_types_supported:
+                    - public
+            jwtProperty:
+                expirationTime: 3600000
+
+spring:
+    application:
+        name: oauth-authorization-server
+    datasource:
+        driver-class-name: org.mariadb.jdbc.Driver
+        url: jdbc:mariadb://${spring.datasource.database.host}:${spring.datasource.database.port}/${spring.datasource.database.name}
+    jpa:
+        hibernate:
+            ddl-auto: validate
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MariaDB103Dialect
+                jdbc.lob.non_contextual_creation: true
+        show-sql: false
+    jackson:
+        default-property-inclusion: non_null
+        property-naming-strategy: LOWER_CAMEL_CASE
+
+logging:
+    file:
+        path: /var/log/oauth_authorization_server
+        name: ${logging.file.path}/oauth_authorization_server.log
+        max-size: 100MB
+        max-history: 10
+    pattern:
+        console: '%d %level [%thread] %logger{25} [%file:%line] - %msg%n'
+        file: '%d %level [%thread] %logger{25} [%file:%line] - %msg%n'
+    level:
+        root: info
+
+

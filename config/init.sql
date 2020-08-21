@@ -1,0 +1,4 @@
+CREATE DATABASE oauth_server;
+CREATE USER 'oauth' IDENTIFIED BY 'oauth';
+GRANT ALL PRIVILEGES ON *.* TO 'oauth'@'%';
+FLUSH PRIVILEGES;
