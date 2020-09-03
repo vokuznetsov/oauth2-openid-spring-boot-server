@@ -9,7 +9,7 @@ Implementation OAuth2 + OpenId Connect Server using Spring-boot
         
     http://localhost:8183/oauth/authorize?response_type=code&client_id=client&scope=openid%20email
     
-   1.1.2. Enter _username/password_ (admin/admin) to returned form.
+   1.1.2. Enter _username/password_ (admin/admin) into returned form.
 
 ### 1.2 Get access_toke, refresh_token, token_id and other meta information.
 
