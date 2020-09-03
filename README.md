@@ -60,14 +60,14 @@ Implementation OAuth2 + OpenId Connect Server using Spring-boot
 
 2.1. Generate keystore for _access_token/refresh_token_ and _token_id_ (OpenId-Connect):
 
-        keytool -genkey -noprompt \
-          -alias oauth2-access-token \
-          -dname "CN=, OU=, O=, L=, S=, C=" \
-          -keyalg RSA -validity 36500 \
-          -keystore access_token.keystore \
-          -keypass HjEgf8RGpr6H9EmB \
-          -storepass HjEgf8RGpr6H9EmB \
-          -storetype JKS
+    keytool -genkey -noprompt \
+      -alias oauth2-access-token \
+      -dname "CN=, OU=, O=, L=, S=, C=" \
+      -keyalg RSA -validity 36500 \
+      -keystore access_token.keystore \
+      -keypass HjEgf8RGpr6H9EmB \
+      -storepass HjEgf8RGpr6H9EmB \
+      -storetype JKS
 
 
 2.2. How to verify signature of _access_token/token_id_
@@ -81,14 +81,14 @@ Implementation OAuth2 + OpenId Connect Server using Spring-boot
    2.2.3. Go to https://8gwifi.org/jwkconvertfunctions.jsp and copy result from step `2.2.2`. This site generates public key based on JWK key.
         You need to copy this part:
         
-        {
-            "kty": "RSA",
-            "e": "AQAB",
-            "use": "sig",
-            "kid": "mJIR29xLoz8OItXHbX37kSF4tsTyq/1QoLmZgkudfqg=",
-            "alg": "RS256",
-            "n": "xcHs6WXaSzf_gG0qG_7wk8yVRrBBmjQwqGWrqNdM45Svi9qzCCpscZ9zn1bQbE-SGCJNw7KRKvq-vLNF3HBPpp4_W8Y4S9QXNufZ8muheRGjH90MqdM_Nu8AIQZtWHe-9FGlPJPBRufvnb5Oi4g8TXCBB2TDHkiFkE_N7ODy6M0EJeGwMaEajJIFzAf__tPp3zNuWCiWmhBhjbkviegId8dIJc34phvpccFE3egxuk9TEZDewXv5LL8aLRmEZRnqD8zmBJRbFE0RShsTGoF7C7Fd5ZeGwWbEvgWyvfACwwHb0AZQ8PuMU6ussjmXc-3hM4tA9wYs9B_xZGZsGhgPxQ"
-        }
+    {
+        "kty": "RSA",
+        "e": "AQAB",
+        "use": "sig",
+        "kid": "mJIR29xLoz8OItXHbX37kSF4tsTyq/1QoLmZgkudfqg=",
+        "alg": "RS256",
+        "n": "xcHs6WXaSzf_gG0qG_7wk8yVRrBBmjQwqGWrqNdM45Svi9qzCCpscZ9zn1bQbE-SGCJNw7KRKvq-vLNF3HBPpp4_W8Y4S9QXNufZ8muheRGjH90MqdM_Nu8AIQZtWHe-9FGlPJPBRufvnb5Oi4g8TXCBB2TDHkiFkE_N7ODy6M0EJeGwMaEajJIFzAf__tPp3zNuWCiWmhBhjbkviegId8dIJc34phvpccFE3egxuk9TEZDewXv5LL8aLRmEZRnqD8zmBJRbFE0RShsTGoF7C7Fd5ZeGwWbEvgWyvfACwwHb0AZQ8PuMU6ussjmXc-3hM4tA9wYs9B_xZGZsGhgPxQ"
+    }
         
    2.2.4. Go to site from `2.1` step and paste the public key (generated from `2.2.3` step) to the field "Verify Signature".
    
